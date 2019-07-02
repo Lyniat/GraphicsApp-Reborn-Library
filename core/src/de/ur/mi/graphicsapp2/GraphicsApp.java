@@ -6,7 +6,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -25,7 +24,12 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
 
     public static void main (String[] arg){
         try { Class c = Class.forName(arg[0]);
+
             Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+            String[] parts = arg[0].split("\\.");
+            String name = parts[parts.length-1];
+            config.setTitle(name);
+
             new Lwjgl3Application((GraphicsApp)c.newInstance(), config);
         } catch (IllegalAccessException e) {
             e.printStackTrace();

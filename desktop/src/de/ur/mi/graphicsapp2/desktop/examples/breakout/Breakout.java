@@ -28,6 +28,7 @@ public class Breakout extends GraphicsApp {
 
 	public void setup() {
 		size(WIDTH, HEIGHT);
+		background(Color.BLACK);
 
 		bricks = new Bricks(0, 70, WIDTH);
 		paddle = new Paddle(HEIGHT - 30, 0, WIDTH);
@@ -44,8 +45,6 @@ public class Breakout extends GraphicsApp {
 	}
 	
 	public void draw() {
-		background(Color.BLACK);
-
 		handleKeys();
 
 		bricks.draw();

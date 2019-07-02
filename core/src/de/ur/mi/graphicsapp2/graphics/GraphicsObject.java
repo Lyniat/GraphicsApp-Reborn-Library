@@ -36,7 +36,10 @@ public abstract class GraphicsObject{
         borderColor = Color.BLACK;
         borderWeight = 0;
 
-        app.addObject(this);
+        //null check needed for unit tests
+        //if(app != null){
+            app.addObject(this);
+        //}
     }
 
     public GraphicsObject(Point point, int width, int height, Color color) {
