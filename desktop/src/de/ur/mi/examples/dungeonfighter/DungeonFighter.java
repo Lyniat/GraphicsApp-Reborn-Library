@@ -1,6 +1,7 @@
 package de.ur.mi.examples.dungeonfighter;
 
 import de.ur.mi.events.KeyEvent;
+import de.ur.mi.events.MouseEvent;
 import de.ur.mi.graphics.Color;
 import de.ur.mi.graphicsapp.GraphicsApp;
 
@@ -46,6 +47,12 @@ public class DungeonFighter extends GraphicsApp {
     public void keyReleased(KeyEvent event) {
         super.keyReleased(event);
         keyHandler.keyReleased(event);
+    }
+
+    public void mouseClicked(MouseEvent event) {
+        double x = event.getX();
+        double y = event.getY();
+        player.mouseClicked((int)x,(int)y);
     }
 
     private void initGame(){

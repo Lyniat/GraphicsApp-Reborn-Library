@@ -1,5 +1,7 @@
 package de.ur.mi.events;
 
+import com.badlogic.gdx.math.Vector3;
+
 public class MouseEvent{
 	
 	public static final int PRESS = 1;

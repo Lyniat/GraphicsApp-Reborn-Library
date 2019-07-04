@@ -30,6 +30,8 @@ public class Player implements Collidable{
     private int lastX;
     private int lastY;
 
+    private Sword sword;
+
 
     public Player(){
         new CollisionManager(this);
@@ -55,6 +57,8 @@ public class Player implements Collidable{
 
         x = (DungeonFighter.DUNGEON_SIZE*DungeonFighter.TILE_SIZE)/2;
         y = (DungeonFighter.DUNGEON_SIZE*DungeonFighter.TILE_SIZE)/2;
+
+        sword = new Sword();
     }
 
     public void draw(){
@@ -99,6 +103,9 @@ public class Player implements Collidable{
         currentPlayerImage.setX(x);
         currentPlayerImage.setY(y);
         currentPlayerImage.draw();
+        sword.setPlayerX(x+PLAYER_WIDTH/2);
+        sword.setPlayerY(y+PLAYER_HEIGHT/2);
+        sword.draw();
 
         state = EntityStates.IDLE;
     }
@@ -119,6 +126,10 @@ public class Player implements Collidable{
 
     public void moveDown(){
         state = EntityStates.DOWN;
+    }
+
+    public void mouseClicked(int mouseX, int mouseY){
+        sword.attack(mouseX,mouseY);
     }
 
     public int getX(){

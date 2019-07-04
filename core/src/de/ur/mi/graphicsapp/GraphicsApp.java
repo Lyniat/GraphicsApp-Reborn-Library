@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import de.ur.mi.events.InputHandler;
 import de.ur.mi.events.InputListener;
 import de.ur.mi.events.KeyEvent;
@@ -20,6 +21,10 @@ import java.util.ArrayList;
 public class GraphicsApp extends ApplicationAdapter implements InputListener {
 
     public static void main (String[] arg){
+        if(arg.length == 0){
+            System.out.println("No class name found in start arguments. You need to specify your main class in the start arguments. Graphics App can not be started. Exiting now!");
+            return;
+        }
         try { Class c = Class.forName(arg[0]);
 
             Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -34,14 +39,12 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             System.out.println("The class '"+arg[0]+"' was not found. Graphics App can not be started. Exiting now!");
-
-            //System.out.println("No class name found in start arguments. You need to specify your main class in the start arguments. Graphics App can not be started. Exiting now!");
         } catch (java.lang.ExceptionInInitializerError e){
             System.out.println("Graphics App can not be started. If you're on macOS, try to start the JVM with '-XstartOnFirstThread'. Exiting now!");
         }
     }
 
-    Camera camera;
+    private Camera camera;
 
     private boolean initilaized = false;
 
@@ -236,6 +239,10 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
     @Override
     public void mouseReleased(MouseEvent event) {
 
+    }
+
+    protected Camera getCamera(){
+        return camera;
     }
 
 }

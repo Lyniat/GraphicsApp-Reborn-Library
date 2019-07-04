@@ -11,6 +11,8 @@ public class Line extends GraphicsObject implements Scalable {
     private double xEndPoint;
     private double yEndPoint;
 
+    private double size;
+
     /**
      * Constructs a new line from x and y to x2 and y2.
      *
@@ -32,6 +34,8 @@ public class Line extends GraphicsObject implements Scalable {
         this.borderColor = color;
         this.xEndPoint = x2;
         this.yEndPoint = y2;
+
+        size = 1;
     }
 
     /**
@@ -57,7 +61,7 @@ public class Line extends GraphicsObject implements Scalable {
         }
         //app.ellipse((float) x, (float) y, (float) width, (float) height);
         app.shapeRenderer.setColor(color.convertColor());
-        app.shapeRenderer.line((float) x,(float)(app.getHeight()-y), (float) xEndPoint, (float) (app.getHeight()-yEndPoint));
+        app.shapeRenderer.rectLine((float) x,(float)(app.getHeight()-y), (float) xEndPoint, (float) (app.getHeight()-yEndPoint),(int)size);
 
     }
 
@@ -251,6 +255,10 @@ public class Line extends GraphicsObject implements Scalable {
     @Override
     public final void scale(double sf) {
         scale(sf, sf);
+    }
+
+    public void setSize(double size){
+        this.size = size;
     }
 
 }
