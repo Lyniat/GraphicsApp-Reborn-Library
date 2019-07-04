@@ -52,8 +52,10 @@ public class Compound extends GraphicsObject {
      */
     public void draw() {
         super.draw();
-        if(!app.rendering){
-            return;
+        if(!app.rendering) {
+            for (int i = 0; i < objects.size(); i++) {
+                app.addObject(objects.get(i));
+            }
         }
         drawBackground();
 

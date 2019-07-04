@@ -1,7 +1,9 @@
 package de.ur.mi.graphics;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import de.ur.mi.geom.Point;
 
 /**
@@ -11,6 +13,7 @@ public class Image extends GraphicsObject implements Scalable, Resizable {
 
     private Texture img;
     private int[][] pixels;
+    private Pixmap.Format format;
 
     /**
      * Loads and creates an image positioned at the x and y coordinates and with
@@ -32,7 +35,25 @@ public class Image extends GraphicsObject implements Scalable, Resizable {
         super(x, y, width, height, Color.BLACK);
 
         img = new Texture(Gdx.files.internal(src));
-        pixels = new int[img.getHeight()][img.getWidth()];
+        pixels = new int[img.getWidth()][img.getHeight()];
+
+        //see https://gist.github.com/metaphore/9dfd4127422bac399876
+        TextureData textureData = img.getTextureData();
+        if (!textureData.isPrepared()) {
+            textureData.prepare();
+        }
+        Pixmap pixmap = textureData.consumePixmap();
+
+
+        format = pixmap.getFormat();
+
+
+        for(int xPos = 0; xPos < img.getWidth(); xPos++){
+            for(int yPos = 0; yPos < img.getHeight(); yPos++){
+                pixels[xPos][yPos] = pixmap.getPixel(xPos,yPos);
+            }
+        }
+
     }
 
     /**
@@ -99,19 +120,10 @@ public class Image extends GraphicsObject implements Scalable, Resizable {
      *
      * @return A two-dimensional array containing the pixels of the image.
      */
-    /*
+
     public int[][] getPixelArray() {
-        img.loadPixels();
-
-        for (int i = 0; i < img.height; i++) {
-            for (int j = 0; j < img.width; j++) {
-                pixels[i][j] = img.pixels[j + (i * img.width)];
-            }
-        }
-
         return pixels;
     }
-    */
 
     /**
      * Sets the pixels of the image and redraws the image.
@@ -121,21 +133,15 @@ public class Image extends GraphicsObject implements Scalable, Resizable {
      *            image
      */
 
-    /*
     public void setPixelArray(int[][] newPixelArr) {
-        img.loadPixels();
-
-        for (int i = 0; i < newPixelArr.length; i++) {
-            for (int j = 0; j < newPixelArr[i].length; j++) {
-                img.pixels[j + (i * img.width)] = newPixelArr[i][j];
+        Pixmap pixmap = new Pixmap(newPixelArr.length,newPixelArr[0].length,format);
+        for(int xPos = 0; xPos < newPixelArr.length; xPos++){
+            for(int yPos = 0; yPos < newPixelArr[0].length; yPos++){
+                pixmap.drawPixel(xPos,yPos,newPixelArr[xPos][yPos]);
             }
         }
-
-        img.updatePixels();
-        draw();
+        img = new Texture(pixmap);
     }
-
-     */
 
     @Override
     public void scale(double sx, double sy) {

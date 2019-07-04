@@ -13,10 +13,7 @@ import de.ur.mi.events.InputHandler;
 import de.ur.mi.events.InputListener;
 import de.ur.mi.events.KeyEvent;
 import de.ur.mi.events.MouseEvent;
-import de.ur.mi.graphics.Color;
-import de.ur.mi.graphics.GraphicsObject;
-import de.ur.mi.graphics.Image;
-import de.ur.mi.graphics.Label;
+import de.ur.mi.graphics.*;
 
 import java.util.ArrayList;
 
@@ -37,12 +34,18 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             System.out.println("The class '"+arg[0]+"' was not found. Graphics App can not be started. Exiting now!");
+
+            //System.out.println("No class name found in start arguments. You need to specify your main class in the start arguments. Graphics App can not be started. Exiting now!");
+        } catch (java.lang.ExceptionInInitializerError e){
+            System.out.println("Graphics App can not be started. If you're on macOS, try to start the JVM with '-XstartOnFirstThread'. Exiting now!");
         }
     }
 
     Camera camera;
 
     private boolean initilaized = false;
+
+    private int zoomFactor = 3;
 
     public static ShapeRenderer shapeRenderer;
     public static SpriteBatch spriteBatch;
@@ -62,6 +65,8 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
 
     private boolean hasUpdateMethod = true;
 
+    private boolean resizable = false;
+
 
     @Override
     public void create() {
@@ -69,6 +74,7 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
         inputHandler = new InputHandler(this);
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         size((int) camera.viewportWidth, (int) camera.viewportHeight);
+        resizable(resizable);
         shapeRenderer = new ShapeRenderer();
         spriteBatch = new SpriteBatch();
         projectionMatrixSet = false;
@@ -109,6 +115,10 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
         //second draw cycle where added objects get now really drawn
 
         for (GraphicsObject graphicsObject : graphicsObjects) {
+
+            if ((graphicsObject instanceof Compound)) {
+                continue;
+            }
 
             if ((graphicsObject instanceof Image || graphicsObject instanceof Label)) {
                 if(shapeBatchOpen){
@@ -193,10 +203,21 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
     }
 
     public void size(int width, int height) {
+        Gdx.graphics.setResizable(true);
         Gdx.graphics.setWindowedMode(width, height);
         camera.viewportWidth = width;
         camera.viewportHeight = height;
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        Gdx.graphics.setResizable(resizable);
+    }
+
+    public void zoom(int zoomFactor){
+
+    }
+
+    public void resizable(boolean resizable){
+        this.resizable = resizable;
+        Gdx.graphics.setResizable(resizable);
     }
 
     @Override
