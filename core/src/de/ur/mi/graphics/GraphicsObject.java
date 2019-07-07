@@ -302,9 +302,11 @@ public abstract class GraphicsObject{
      * Draws the GraphicsObject to the canvas.
      */
     public void draw() {
-        if(!app.rendering) {
-            app.addObject(this);
-        }
+        app.addObject(this);
+    }
+
+    public void render(){
+
     }
 
     /**

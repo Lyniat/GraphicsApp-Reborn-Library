@@ -141,11 +141,9 @@ public class Label extends GraphicsObject {
 	@Override
 	public void draw() {
 		super.draw();
-		if(!app.rendering){
-			return;
-		}
-		//font.setColor(color.convertColor());
-		// font.getData().setScale((float)fontSize);
+	}
+
+	public void render(){
 		app.text(font,text,(int)x,(int)y);
 	}
 

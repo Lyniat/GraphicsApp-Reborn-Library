@@ -27,4 +27,14 @@ public class Resources {
     public static final String PLAYER_RUN_1 = "DungeonTileset/knight_f_run_anim_f1.png";
     public static final String PLAYER_RUN_2 = "DungeonTileset/knight_f_run_anim_f2.png";
     public static final String PLAYER_RUN_3 = "DungeonTileset/knight_f_run_anim_f3.png";
+
+    //Enemies
+
+    //Chort
+    public static final String CHORT_IDLE = "DungeonTileset/chort_idle_anim_f0.png";
+    public static final String CHORT_RUN_0 = "DungeonTileset/chort_run_anim_f0.png";
+    public static final String CHORT_RUN_1 = "DungeonTileset/chort_run_anim_f1.png";
+    public static final String CHORT_RUN_2 = "DungeonTileset/chort_run_anim_f2.png";
+    public static final String CHORT_RUN_3 = "DungeonTileset/chort_run_anim_f3.png";
+
 }

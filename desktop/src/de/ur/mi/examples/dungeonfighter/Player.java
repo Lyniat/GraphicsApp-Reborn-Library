@@ -1,6 +1,5 @@
 package de.ur.mi.examples.dungeonfighter;
 
-import de.ur.mi.examples.breakout.states.GameState;
 import de.ur.mi.graphics.Image;
 
 public class Player implements Collidable{
@@ -8,7 +7,8 @@ public class Player implements Collidable{
     public static final int PLAYER_WIDTH = 16;
     public static final int PLAYER_HEIGHT = 28;
 
-    private Image imagePlayerIdle;
+    private Image imagePlayerIdleRight;
+    private Image imagePlayerIdleLeft;
     private Image[] imagePlayerRunRight;
     private Image[] imagePlayerRunLeft;
 
@@ -51,9 +51,10 @@ public class Player implements Collidable{
         state = EntityStates.IDLE;
         lookingAt = EntityStates.RIGHT;
 
-        imagePlayerIdle = new Image(PLAYER_WIDTH,PLAYER_HEIGHT,Resources.PLAYER_IDLE);
+        imagePlayerIdleRight = new Image(PLAYER_WIDTH,PLAYER_HEIGHT,Resources.PLAYER_IDLE);
+        imagePlayerIdleLeft = ImageHelper.mirror(new Image(PLAYER_WIDTH,PLAYER_HEIGHT,Resources.PLAYER_IDLE));
 
-        currentPlayerImage = imagePlayerIdle;
+        currentPlayerImage = imagePlayerIdleRight;
 
         x = (DungeonFighter.DUNGEON_SIZE*DungeonFighter.TILE_SIZE)/2;
         y = (DungeonFighter.DUNGEON_SIZE*DungeonFighter.TILE_SIZE)/2;
@@ -99,6 +100,16 @@ public class Player implements Collidable{
                     break;
             }
         }
+        else {
+            switch (lookingAt) {
+                case LEFT:
+                    currentPlayerImage = imagePlayerIdleLeft;
+                    break;
+                case RIGHT:
+                    currentPlayerImage = imagePlayerIdleRight;
+                    break;
+            }
+        }
 
         currentPlayerImage.setX(x);
         currentPlayerImage.setY(y);
@@ -130,6 +141,12 @@ public class Player implements Collidable{
 
     public void mouseClicked(int mouseX, int mouseY){
         sword.attack(mouseX,mouseY);
+        if(mouseX < x){
+            lookingAt = EntityStates.LEFT;
+        }else{
+            lookingAt = EntityStates.RIGHT;
+        }
+
     }
 
     public int getX(){
@@ -161,8 +178,25 @@ public class Player implements Collidable{
     }
 
     @Override
+    public double getDamage() {
+        return 0;
+    }
+
+    @Override
     public void onCollision(Collision collision) {
-        x = lastX;
-        y = lastY;
+        if(collision.isBlocking()){
+            x = lastX;
+            y = lastY;
+        }
+    }
+
+    @Override
+    public long getAttackMask() {
+        return 0;
+    }
+
+    @Override
+    public long getDefensiveMask() {
+        return CollisionManager.COLLISION_MASK_PLAYER | CollisionManager.COLLISION_MASK_PLAYER_SWORD;
     }
 }

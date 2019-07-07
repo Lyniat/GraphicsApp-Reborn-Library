@@ -34,7 +34,7 @@ public class Color {
      *            the blue value of the new color (0-255)
      */
     public Color(int red, int green, int blue) {
-        this(red, green, blue,1);
+        this(red, green, blue,0);
     }
 
     /**
@@ -63,7 +63,7 @@ public class Color {
      * @param color the int value containing rgb values of a color
      */
     public Color(int color) {
-        this(color,color,color,1);
+        this(color,color,color,0);
     }
 
     /**

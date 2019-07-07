@@ -94,10 +94,9 @@ public class Triangle extends GraphicsObject implements Scalable, Resizable {
     @Override
     public void draw() {
         super.draw();
-        if (!app.rendering) {
-            return;
-        }
-        //app.ellipse((float) x, (float) y, (float) width, (float) height);
+    }
+
+    public void render(){
         app.shapeRenderer.setColor(color.convertColor());
         app.shapeRenderer.triangle((float) x, (float) (app.getHeight() - y - height),
                 (float) v1x, (float) (app.getHeight() - v1y - height),

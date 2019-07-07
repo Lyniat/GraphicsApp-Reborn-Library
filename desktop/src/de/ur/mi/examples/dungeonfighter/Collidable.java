@@ -5,5 +5,8 @@ public interface Collidable {
     int getColliderY();
     int getColliderWidth();
     int getColliderHeight();
+    double getDamage();
     void onCollision(Collision collision);
+    long getAttackMask();
+    long getDefensiveMask();
 }

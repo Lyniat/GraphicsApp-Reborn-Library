@@ -56,13 +56,11 @@ public class Line extends GraphicsObject implements Scalable {
     @Override
     public void draw() {
         super.draw();
-        if(!app.rendering){
-            return;
-        }
-        //app.ellipse((float) x, (float) y, (float) width, (float) height);
+    }
+
+    public void render(){
         app.shapeRenderer.setColor(color.convertColor());
         app.shapeRenderer.rectLine((float) x,(float)(app.getHeight()-y), (float) xEndPoint, (float) (app.getHeight()-yEndPoint),(int)size);
-
     }
 
     /**

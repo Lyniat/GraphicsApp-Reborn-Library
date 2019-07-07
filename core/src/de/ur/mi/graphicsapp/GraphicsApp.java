@@ -2,6 +2,7 @@ package de.ur.mi.graphicsapp;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Camera;
@@ -46,7 +47,7 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
 
     private Camera camera;
 
-    private boolean initilaized = false;
+    private boolean initialized = false;
 
     private int zoomFactor = 3;
 
@@ -73,28 +74,24 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
 
     @Override
     public void create() {
-
         inputHandler = new InputHandler(this);
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        size((int) camera.viewportWidth, (int) camera.viewportHeight);
         resizable(resizable);
         shapeRenderer = new ShapeRenderer();
         spriteBatch = new SpriteBatch();
         projectionMatrixSet = false;
 
         GraphicsObject.app = this;
+
+        setup();
     }
 
     @Override
     public void render() {
+        super.render();
         graphicsObjectsLastFrame = graphicsObjects; //keep in memory for later use if only setup() is used
         graphicsObjects = new ArrayList<GraphicsObject>();
         camera.update();
-        if (!initilaized) {
-            setup();
-            initilaized = true;
-        }
-        super.render();
 
         //first draw to add objects to list but objects get no really drawn
         draw();
@@ -132,7 +129,7 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
                     spriteBatch.begin();
                     spriteBatchOpen = true;
                 }
-                graphicsObject.draw();
+                graphicsObject.render();
             }
 
             if (!(graphicsObject instanceof Image || graphicsObject instanceof Label)) {
@@ -144,7 +141,7 @@ public class GraphicsApp extends ApplicationAdapter implements InputListener {
                     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                     shapeBatchOpen = true;
                 }
-                graphicsObject.draw();
+                graphicsObject.render();
             }
         }
 

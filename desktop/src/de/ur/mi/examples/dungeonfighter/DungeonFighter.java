@@ -2,8 +2,13 @@ package de.ur.mi.examples.dungeonfighter;
 
 import de.ur.mi.events.KeyEvent;
 import de.ur.mi.events.MouseEvent;
+import de.ur.mi.examples.dungeonfighter.effect.EffectManager;
+import de.ur.mi.examples.dungeonfighter.enemy.Chort;
+import de.ur.mi.examples.dungeonfighter.enemy.Enemy;
 import de.ur.mi.graphics.Color;
 import de.ur.mi.graphicsapp.GraphicsApp;
+
+import java.util.ArrayList;
 
 public class DungeonFighter extends GraphicsApp {
 
@@ -16,7 +21,11 @@ public class DungeonFighter extends GraphicsApp {
 
     private Player player;
 
+    private ArrayList<Enemy> enemies;
+
     private CollisionManager collisionManager;
+
+    private EffectManager effectManager = new EffectManager();
 
     @Override
     public void setup() {
@@ -26,15 +35,36 @@ public class DungeonFighter extends GraphicsApp {
         background(Color.BLACK);
 
         initGame();
+
+        System.out.println("setup");
     }
 
     @Override
     public void draw() {
         handleKeys();
         dungeon.drawBottomLayer();
+
+        ArrayList<Enemy> newList = new ArrayList<Enemy>();
+
+
+        for (Enemy enemy:enemies) {
+            if(!enemy.isDead()){
+                newList.add(enemy);
+            }
+        }
+
+
+        enemies = newList;
+
+        for (Enemy enemy:enemies) {
+            enemy.draw();
+        }
+
         player.draw();
         collisionManager.update();
         dungeon.drawTopLayer();
+
+        effectManager.draw();
     }
 
     @Override
@@ -61,6 +91,12 @@ public class DungeonFighter extends GraphicsApp {
         collisionManager = new CollisionManager();
         collisionManager.setCollisionMap(dungeon.getCollisionMap());
         player = new Player();
+        enemies = new ArrayList<Enemy>();
+
+        enemies.add(new Chort(30,30));
+        enemies.add(new Chort(30,60));
+        enemies.add(new Chort(60,30));
+        enemies.add(new Chort(60,60));
     }
 
     private void handleKeys() {

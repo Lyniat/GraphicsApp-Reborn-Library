@@ -33,7 +33,7 @@ public class Vector extends Point {
         return new Vector(getX()-substitution.getX(),getY()-substitution.getY());
     }
 
-    public Vector rotate (float degrees) {
+    public Vector rotate (double degrees) {
         double degreesToRadians = Math.PI / 180;
         double radians = degrees * degreesToRadians;
 
